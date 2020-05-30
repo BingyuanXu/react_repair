@@ -11,22 +11,32 @@ class App extends React.Component {
   };
 
   submit = (text) => {
-    this.setState( previous => {
-      return {list : [...previous.list,{ id: text, task: text, completed: false } ]}
-      })
+    this.setState(previous => {
+      return { list: [...previous.list, { id: text, task: text, completed: false }] }
+    })
   }
 
-componentWillMount = () => {
-  let newList =[];
-  fetch(`https://5ed0108416017c00165e327c.mockapi.io/api/v1/repairs`)
-  .then(res => res.json())
-  .then(json => {
-    console.log(json)
-    newList = json.map(ele => ({id: ele.id, task: ele.task, completed: ele.completed}));
-    console.log(newList)
-    this.setState({list : newList})
-  })
-}
+  delete = (obj) => {
+    this.setState(previous => {
+      return {
+        list: previous.list.filter(ele => {
+          return obj !== ele
+        })
+      }
+    })
+  }
+
+  componentWillMount = () => {
+    let newList = [];
+    fetch(`https://5ed0108416017c00165e327c.mockapi.io/api/v1/repairs`)
+      .then(res => res.json())
+      .then(json => {
+        console.log(json)
+        newList = json.map(ele => ({ id: ele.id, task: ele.task, completed: ele.completed }));
+        console.log(newList)
+        this.setState({ list: newList })
+      })
+  }
 
   render = () => (
     <section className="fixmeapp">
@@ -36,9 +46,9 @@ componentWillMount = () => {
       </header>
       <section className="main">
         <ul className="repair-list">
-        {this.state.list.map(e => (
-         <Singlerepair key={e.id} task={e.task} completed={e.completed} id={e.id}
-        />))}         
+          {this.state.list.map(e => (
+            <Singlerepair key={e.id} task={e.task} completed={e.completed} id={e.id} click={this.delete} obj={e} //obj用于接收最开始被创建的state数据，用于被filter
+            />))}
         </ul>
       </section>
       <footer className="footer">

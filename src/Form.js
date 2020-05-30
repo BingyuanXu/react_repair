@@ -2,28 +2,21 @@ import React from 'react';
 import './Form.css';
 
 class FormField extends React.Component {
-
   state = {
     textField: ``,
-
   };
-
 
   textFieldUpdate = (e) => {
     this.setState({textField : e.target.value})
   }
 
-
   updateText = (e) => {
     this.props.sub(this.state.textField);
     this.setState({textField: ``})
-    e.preventDefault();
-    
+    e.preventDefault();    
   }
 
-
   render = () => (
-
     <form onSubmit={e => this.updateText(e)}>
       <input className="new-repair"
              placeholder="What needs to be repaired?"
@@ -32,7 +25,6 @@ class FormField extends React.Component {
              onChange={e => this.textFieldUpdate(e)}
       />
     </form>
-
   );
 }
 
